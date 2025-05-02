@@ -33,7 +33,7 @@ export default function Dashboard() {
         <p style={paragraphText}>
           This application uses <strong>React</strong> for the frontend and <strong>Node.js</strong> for the backend, with <strong>MySQL</strong> for the database. 
           JWT tokens are utilized for secure user authentication. The application is hosted using <strong>NGINX</strong> for frontend delivery 
-          and the backend APIs operate independently on port 3001. The project emphasizes full decoupling between frontend and backend, enabling 
+          and the backend APIs operate independently on port 3000, and the frontend is running on default port 80. The project emphasizes full decoupling between frontend and backend, enabling 
           a modern Single Page Application (SPA) architecture.
         </p>
       </div>
