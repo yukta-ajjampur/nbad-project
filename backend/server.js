@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
-const mysql = require('mysql') 
 
 const app = express();
 const PORT = 3001;
@@ -14,33 +13,11 @@ app.use(bodyParser.json());
 // Secret key for JWT
 const SECRET_KEY = 'Squid game';
 
-// Hardcoded login credentials
-const USERNAME = 'yukta';   
-const PASSWORD = 'yukta';   
-
-// ✅ MySQL Database connection
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',      
-  password: 'yukta123',  
-  database: 'clean_energy',
-  port: 3307
-});
-
-// Connect to MySQL
-db.connect((err) => {
-  if (err) {
-    console.error('MySQL connection error:', err); 
-    return;
-  }
-  console.log('✅ Connected to MySQL database');
-});
-
 // Route 1: /api/login
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
 
-  if (username === USERNAME && password === PASSWORD) {
+  if (username === "yukta" && password === "yukta") {
     const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '3m' });
     res.json({ token });
   } else {
@@ -64,26 +41,66 @@ function authenticateToken(req, res, next) {
 
 // Route 2: /api/summary-data
 app.get('/api/summary-data', authenticateToken, (req, res) => {
-  const query = 'SELECT month, energyProduced FROM summary_data';
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching summary data:', err.message);
-      return res.status(500).send('Database error');
+  const summaryData = [
+    {
+      "id" : 1,
+      "month" : "January",
+      "energyProduced" : 200
+    },
+    {
+      "id" : 2,
+      "month" : "Feburary",
+      "energyProduced" : 240
+    },
+    {
+      "id" : 3,
+      "month" : "March",
+      "energyProduced" : 300
+    },
+    {
+      "id" : 4,
+      "month" : "April",
+      "energyProduced" : 350
+    },
+    {
+      "id" : 5,
+      "month" : "May",
+      "energyProduced" : 400
     }
-    res.json(results);
-  });
+  ];
+  return res.json(summaryData)
 });
 
 // Route 3: /api/reports-data
 app.get('/api/reports-data', authenticateToken, (req, res) => {
-  const query = 'SELECT month, costReduction FROM reports_data';
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching reports data:', err.message);
-      return res.status(500).send('Database error');
+  const reportsData = [
+    {
+      "id" : 1,
+      "month" : "January",
+      "costReduction" : 5
+    },
+    {
+      "id" : 2,
+      "month" : "Feburary",
+      "costReduction" : 8
+    },
+    {
+      "id" : 3,
+      "month" : "March",
+      "costReduction" : 12
+    },
+    {
+      "id" : 4,
+      "month" : "April",
+      "costReduction" : 15
+    },
+    {
+      "id" : 5,
+      "month" : "May",
+      "costReduction" : 18
     }
-    res.json(results);
-  });
+  ];
+  return res.json(reportsData);
 });
 
 // Start server
